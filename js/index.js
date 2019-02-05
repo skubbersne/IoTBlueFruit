@@ -1,6 +1,10 @@
 // Based on an example:
 //https://github.com/don/cordova-plugin-ble-central
 
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+    console.log(device.cordova);
+} 
 
 // ASCII only
 function bytesToString(buffer) {
@@ -29,7 +33,6 @@ var blue ={
     rxCharacteristic: '6e400003-b5a3-f393-e0a9-e50e24dcca9e'  // receive is from the phone's perspective
 }
 
-
 var ConnDeviceId;
 var deviceList =[];
  
@@ -57,12 +60,12 @@ function refreshDeviceList(){
 
 function onDiscoverDevice(device){
 	//Make a list in html and show devises
-	if (device.name == "CLAUS"){
+	
 		var listItem = document.createElement('li'),
 		html = device.name+ "," + device.id;
 		listItem.innerHTML = html;
 		document.getElementById("bleDeviceList").appendChild(listItem);
-	}
+	
 }
 
 
@@ -78,9 +81,6 @@ function conn(){
 function onConnect(){
 	document.getElementById("statusDiv").innerHTML = " Status: Connected";
 	document.getElementById("bleId").innerHTML = ConnDeviceId;
-	ble.read(device_id);
-	ble.console.log(device_id);
-	ble.serviceUUID(device);
 	ble.startNotification(ConnDeviceId, blue.serviceUUID, blue.rxCharacteristic, onData, onError);
 }
 
@@ -118,3 +118,4 @@ function onError(reason)  {
 	alert("ERROR: " + reason); // real apps should use notification.alert
 }
 
+	
